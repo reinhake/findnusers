@@ -8,6 +8,10 @@ app.set('port', process.env.PORT || 8080);
 
 
 app.get('/findUsers', async (req, res) =>{
+	//req.body should include a json with parameters user and locations
+	//user should containt a pair of coordinates
+	//locations should contain an array of pairs of coordinates
+	//returns an array of coordinates in the order of closest to farthes from the user
 	
 	doc = req.body
 	user = doc.user
@@ -56,7 +60,7 @@ app.get('/findUsers', async (req, res) =>{
 
 
 app.listen(app.get('port'), () => 
-  console.log(`it's alive on https://findnusers-apim.azure-api.net`)
+  console.log(`it's alive on https://findnclosestusers.azurewebsites.net/findNUsers`)
 );
 
-// https://findnusers-apim.azure-api.net/findUsers?user=0.123456,0.000321&locations=0.111111&locations=0.111111&locations=0.111110&locations=0.111110
+// https://findnclosestusers.azurewebsites.net/findNUsers
