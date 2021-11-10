@@ -9,38 +9,47 @@ app.set('port', process.env.PORT || 8080);
 
 app.get('/findUsers', async (req, res) =>{
 	
+	doc = req.body
+	user = doc.user
 	
-	let user = req.query.user
 	
-	let locations = req.query.locations
+	locations = doc.locations
+	
+	len = Object.keys(locations).length
 	
 	let array = []
 	let checkarray = []
 	
-	for(i=0; i < locations.length; i + 2){
-		let distx = user[0] - locations[i]
-		let disty = user[1] - locations[i + 1]
-		let dist = Math.sqrt((distx * distx) + (disty * disty))
+	//calculate distance of each location to the user
+	for(i=0; i < len; i++){
+		let loc = locations[i]
+		
+		let distx = user[0] - loc[0]
+		let disty = user[1] - loc[1]
+		let dist = (distx * distx) + (disty * disty)
 		array.push(dist)
 		checkarray.push(i)
 	}
 	
 	finall = []
-	console.log("Array so far: ", array[1])
 	
-	while(checkarray){
-		min = 0
+	
+	//sort the arrays and push into final array to send
+	for(j = 0; j < len; j++){
+		min = 1000000
 		mini = -1
-		for( i = 0; i < checkarray.length; i++){
-			if(array[i] > min){
+		for( i = 0; i < array.length; i++){
+			if(array[i] < min){
 				min = array[i]
 				mini = i
 			}
 		}
-		let trash = array.pop(mini)
-		finall.push(locations[mini*2], locations[mini*2 + 1])
+		console.log(mini)
+		array[mini] = 1000000
+		finall.push(locations[mini])
 	}
 	
+	//send final array
 	res.status(200).send(finall)
 	
 })
