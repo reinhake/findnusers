@@ -1,0 +1,10 @@
+.vscode/settings.json
+myExpressApp/app.js
+myExpressApp/package.json
+myExpressApp/bin/www
+myExpressApp/public/stylesheets/style.css
+myExpressApp/routes/index.js
+myExpressApp/routes/users.js
+myExpressApp/views/error.pug
+myExpressApp/views/index.pug
+myExpressApp/views/layout.pug
