@@ -7,7 +7,7 @@ app.use(express.json());
 app.set('port', process.env.PORT || 8080);
 
 
-app.get('/findUsers', async (req, res) =>{
+app.get('/findNUsers', async (req, res) =>{
 	//req.body should include a json with parameters user and locations
 	//user should containt a pair of coordinates
 	//locations should contain an array of pairs of coordinates
