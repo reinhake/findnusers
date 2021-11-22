@@ -14,31 +14,35 @@ app.get('/findUsers', async (req, res) =>{
 	//returns an array of coordinates in the order of closest to farthes from the user
 	
 	doc = req.body
+
+	//user location
 	user = doc.user
 	
-	
+	//array of key: location pairs
 	locations = doc.locations
 	
+	//len is number of locations not including the user
 	len = Object.keys(locations).length
-	
+
+	//loca is the list of key names
+	loca = Object.keys(locations)
+
 	let array = []
-	let checkarray = []
 	
-	//calculate distance of each location to the user
+	//calculate distance of each location to the user and store them in array
 	for(i=0; i < len; i++){
-		let loc = locations[i]
+		let loc = locations[loca[i]]
 		
 		let distx = user[0] - loc[0]
 		let disty = user[1] - loc[1]
-		let dist = (distx * distx) + (disty * disty)
+		let dist = Math.sqrt((distx * distx) + (disty * disty))
 		array.push(dist)
-		checkarray.push(i)
 	}
 	
-	finall = []
+	var finall = ''
 	
 	
-	//sort the arrays and push into final array to send
+	//sort the distances in array and put into finall in the syntax of a JSON
 	for(j = 0; j < len; j++){
 		min = 1000000
 		mini = -1
@@ -49,11 +53,21 @@ app.get('/findUsers', async (req, res) =>{
 			}
 		}
 		console.log(mini)
+		if(j == 0){
+			finall += '{"' + loca[mini] + '": [' + array[mini] + '], '
+		}
+		else if (j == len - 1){
+			finall += '"' + loca[mini] + '": [' + array[mini] + ']}'
+		}
+		else{
+			finall += '"' + loca[mini] + '": [' + array[mini] + '], '
+		}
 		array[mini] = 1000000
-		finall.push(locations[mini])
+		
 	}
 	
 	//send final array
+	res.header("Content-Type",'application/json')
 	res.status(200).send(finall)
 	
 })
